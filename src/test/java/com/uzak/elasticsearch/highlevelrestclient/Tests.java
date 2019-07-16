@@ -27,34 +27,31 @@ import java.util.Map;
 public class Tests {
 
     @Autowired
-    private ElasticsearchConfiguration configuration;
+    private ESService esService;
 
     @Test
     public void indexApi() throws Exception{
-        for (int i = 2; i < 1000; i ++){
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", i);
-            map.put("userName", "uzak"+i);
-            map.put("password", "123");
-            map.put("createTime", LocalDateTime.now());
-            map.put("message", "High level restclient test"+i);
-            IndexRequest indexRequest = new IndexRequest("user", "manage", ""+i).source(map);
-            IndexResponse response = configuration.getObject().index(indexRequest);
-            System.out.println(response);
-        }
+        esService.indexApi();
     }
 
     @Test
     public void getApi() throws Exception{
-        GetRequest request = new GetRequest("user", "manage", "999");
-        GetResponse response = configuration.getObject().get(request);
-        System.out.println(response);
+        esService.getApi();
     }
 
     @Test
     public void deleteApi() throws Exception{
-        DeleteRequest request = new DeleteRequest("user", "manage", "1");
-        DeleteResponse response = configuration.getObject().delete(request);
-        System.out.println(response);
+        esService.deleteApi();
     }
+
+    @Test
+    public void bulkApi() throws Exception{
+        esService.bulkApi();
+    }
+
+    @Test
+    public void bulkAsyncApi() throws Exception{
+        esService.bulkAsyncApi();
+    }
+
 }

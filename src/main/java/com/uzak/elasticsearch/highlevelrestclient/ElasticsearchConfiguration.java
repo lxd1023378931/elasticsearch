@@ -32,13 +32,13 @@ public class ElasticsearchConfiguration implements FactoryBean<RestHighLevelClie
 
     @Override
     public void destroy() throws Exception {
-        try {
-           if (restHighLevelClient != null){
-               restHighLevelClient.close();
-           }
-        }catch (Exception e){
-            log.error("Error closing ElasticSearch client: ", e);
-        }
+//        try {
+//           if (restHighLevelClient != null){
+//               restHighLevelClient.close();
+//           }
+//        }catch (Exception e){
+//            log.error("Error closing ElasticSearch client: ", e);
+//        }
     }
 
     @Override
