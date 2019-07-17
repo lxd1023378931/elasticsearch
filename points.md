@@ -28,4 +28,6 @@ Elasticsearch：
     最后查询的性能，如果ID是有规律的，可以快速跳过不包含该ID的Segment，从而减少不必要的磁盘读次数
 
 四.一个索引只允许有一个type
-    参考：https://elasticsearch.cn/article/337
+    参考：
+        https://elasticsearch.cn/article/337
+        https://www.elastic.co/guide/en/elasticsearch/reference/6.2/removal-of-types.html

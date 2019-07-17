@@ -31,6 +31,11 @@ public class Tests {
     private BulkProcessorService bulkProcessorService;
 
     @Test
+    public void createIndexApi() throws Exception{
+        esService.createIndexApi();
+    }
+
+    @Test
     public void indexApi() throws Exception{
         esService.indexApi();
     }
@@ -43,6 +48,16 @@ public class Tests {
     @Test
     public void deleteApi() throws Exception{
         esService.deleteApi();
+    }
+
+    @Test
+    public void updateApi() throws Exception{
+        esService.updateApi();
+    }
+
+    @Test
+    public void upsertApi() throws Exception{
+        esService.upsertApi();
     }
 
     @Test
