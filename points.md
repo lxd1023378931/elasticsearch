@@ -26,3 +26,6 @@ Elasticsearch：
     或者是有公共前缀等具有一定规律性的ID，压缩比会比较高；最后通过Posting list里的ID到磁盘中查找Document
     信息的那步，因为Elasticsearch是分Segment存储的，根据ID这个大范围的Term定位到Segment的效率直接影响了
     最后查询的性能，如果ID是有规律的，可以快速跳过不包含该ID的Segment，从而减少不必要的磁盘读次数
+
+四.一个索引只允许有一个type
+    参考：https://elasticsearch.cn/article/337
