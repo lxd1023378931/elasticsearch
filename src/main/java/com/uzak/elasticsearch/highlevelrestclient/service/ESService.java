@@ -1,4 +1,4 @@
-package com.uzak.elasticsearch.highlevelrestclient;
+package com.uzak.elasticsearch.highlevelrestclient.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.ActionListener;
@@ -10,7 +10,7 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ import java.util.Map;
 public class ESService {
 
     @Autowired
-    private ElasticsearchConfiguration configuration;
+    private RestHighLevelClient restHighLevelClient;
 
     public void indexApi() throws Exception{
         for (int i = 2; i < 1000; i ++){
@@ -40,20 +40,20 @@ public class ESService {
             map.put("createTime", LocalDateTime.now());
             map.put("message", "High level restclient test"+i);
             IndexRequest indexRequest = new IndexRequest("user", "manage", ""+i).source(map);
-            IndexResponse response = configuration.getObject().index(indexRequest);
+            IndexResponse response = restHighLevelClient.index(indexRequest);
             log.info(response.toString());
         }
     }
 
     public void getApi() throws Exception{
         GetRequest request = new GetRequest("user", "manage", "999");
-        GetResponse response = configuration.getObject().get(request);
+        GetResponse response = restHighLevelClient.get(request);
         log.info(response.toString());
     }
 
     public void deleteApi() throws Exception{
         DeleteRequest request = new DeleteRequest("user", "manage", "1");
-        DeleteResponse response = configuration.getObject().delete(request);
+        DeleteResponse response = restHighLevelClient.delete(request);
         log.info(response.toString());
     }
 
@@ -62,7 +62,7 @@ public class ESService {
      * @throws Exception
      */
     public void bulkApi() throws Exception{
-        BulkResponse response = configuration.getObject().bulk(getBulkRequest(1000));
+        BulkResponse response = restHighLevelClient.bulk(getBulkRequest(1000));
         log.info(response.toString());
     }
 
@@ -71,7 +71,7 @@ public class ESService {
      * @throws Exception
      */
     public void bulkAsyncApi() throws Exception{
-        configuration.getObject().bulkAsync(getBulkRequest(2000), new ActionListener<BulkResponse>() {
+        restHighLevelClient.bulkAsync(getBulkRequest(2000), new ActionListener<BulkResponse>() {
             @Override
             public void onResponse(BulkResponse bulkItemResponses) {
                 log.info(bulkItemResponses.toString());

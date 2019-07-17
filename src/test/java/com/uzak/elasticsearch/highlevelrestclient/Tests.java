@@ -1,9 +1,7 @@
 package com.uzak.elasticsearch.highlevelrestclient;
 
-import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.get.GetRequest;
-import org.elasticsearch.action.get.GetResponse;
+import com.uzak.elasticsearch.highlevelrestclient.service.BulkProcessorService;
+import com.uzak.elasticsearch.highlevelrestclient.service.ESService;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.junit.Test;
@@ -29,6 +27,9 @@ public class Tests {
     @Autowired
     private ESService esService;
 
+    @Autowired
+    private BulkProcessorService bulkProcessorService;
+
     @Test
     public void indexApi() throws Exception{
         esService.indexApi();
@@ -52,6 +53,20 @@ public class Tests {
     @Test
     public void bulkAsyncApi() throws Exception{
         esService.bulkAsyncApi();
+    }
+
+    @Test
+    public void add(){
+        for (int i = 1; i < 3000; i ++){
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", i);
+            map.put("userName", "uzak"+i);
+            map.put("password", "123");
+            map.put("createTime", LocalDateTime.now());
+            map.put("message", "High level restclient test"+i);
+            IndexRequest indexRequest = new IndexRequest("agent", "person", ""+i).source(map);
+            bulkProcessorService.add(indexRequest);
+        }
     }
 
 }

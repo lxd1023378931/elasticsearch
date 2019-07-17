@@ -1,18 +1,12 @@
-package com.uzak.elasticsearch.highlevelrestclient;
+package com.uzak.elasticsearch.highlevelrestclient.config;
 
 import com.uzak.elasticsearch.lowlevelrestclient.ESClient;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.Header;
-import org.apache.http.HttpHost;
-import org.apache.http.message.BasicHeader;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,7 +17,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class ElasticsearchConfiguration implements FactoryBean<RestHighLevelClient>, InitializingBean, DisposableBean {
+public class RestHighLevelClientFactory implements FactoryBean<RestHighLevelClient>, InitializingBean, DisposableBean {
 
     @Autowired
     private ESClient esClient;
@@ -32,13 +26,13 @@ public class ElasticsearchConfiguration implements FactoryBean<RestHighLevelClie
 
     @Override
     public void destroy() throws Exception {
-//        try {
-//           if (restHighLevelClient != null){
-//               restHighLevelClient.close();
-//           }
-//        }catch (Exception e){
-//            log.error("Error closing ElasticSearch client: ", e);
-//        }
+        try {
+           if (restHighLevelClient != null){
+               restHighLevelClient.close();
+           }
+        }catch (Exception e){
+            log.error("Error closing ElasticSearch client: ", e);
+        }
     }
 
     @Override
