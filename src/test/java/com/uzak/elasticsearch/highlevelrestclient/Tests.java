@@ -2,6 +2,7 @@ package com.uzak.elasticsearch.highlevelrestclient;
 
 import com.uzak.elasticsearch.highlevelrestclient.service.BulkProcessorService;
 import com.uzak.elasticsearch.highlevelrestclient.service.ESService;
+import com.uzak.elasticsearch.highlevelrestclient.service.SearchService;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.junit.Test;
@@ -26,6 +27,9 @@ public class Tests {
 
     @Autowired
     private ESService esService;
+
+    @Autowired
+    private SearchService searchService;
 
     @Autowired
     private BulkProcessorService bulkProcessorService;
@@ -82,6 +86,11 @@ public class Tests {
             IndexRequest indexRequest = new IndexRequest("agent", "person", ""+i).source(map);
             bulkProcessorService.add(indexRequest);
         }
+    }
+
+    @Test
+    public void search() throws Exception{
+        searchService.search();
     }
 
 }
