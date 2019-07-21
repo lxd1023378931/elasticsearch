@@ -3,11 +3,13 @@ package com.uzak.elasticsearch.highlevelrestclient.service;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName SearchService
@@ -30,7 +32,9 @@ public class SearchService {
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         //查询所有内容
-        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+//        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+        searchSourceBuilder.query(QueryBuilders.termQuery("id", 1));
+        searchSourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
         request.source(searchSourceBuilder);
         SearchResponse response = restHighLevelClient.search(request);
         System.out.println(response.getHits().getTotalHits());
